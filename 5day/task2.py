@@ -30,8 +30,7 @@ temperature-to-humidity map:
 
 humidity-to-location map:
 60 56 37
-56 93 4
-"""
+56 93 4"""
 
 
 
@@ -73,7 +72,7 @@ class Range:
 
     @staticmethod
     def build_se(s, e, shift):
-        return Range(s + shift, e - s + shift)
+        return Range(s + shift, e - s)
 
     def cpy(self, shift=0, _len=None):
         if _len is None:
@@ -84,16 +83,36 @@ class Range:
     def __repr__(self) -> str:
         return f"range <start = {self.s1}, end = {self.e1}, len = {self._len}>"
     
-    def split(self, s2: int, dst: int, _len: int):
-        res = []
+    def splitable(t, s2: int, dst: int, _len: int) -> bool:
         e2 = s2 + _len
+        if e2 < t.s1 or t.e1 < s2:
+            return False
+        return True
+
+    def split(self, s2: int, dst: int, _len: int):
+        e2 = s2 + _len
+
         if s2 <= self.s1 and e2 >= self.e1:
             return [self.cpy(dst - s2)]
 
         if s2 > self.s1 and e2 < self.e1:
+            
             return [
-                self.cpy(shift=0, _len= s2 - s1)
+                self.cpy(shift=0, _len= s2 - self.s1),
+                Range.build_se(s2, e2, dst - s2),
+                Range.build_se(e2, self.e1 + 1, 0)
             ]
+        
+        if self.s1 < s2:
+            return [
+                self.cpy(shift=0, _len = s2 - self.s1),
+                Range.build_se(s2, self.e1 + 1, dst - s2)
+            ]
+
+        return [
+            self.cpy(shift=dst-s2, _len=e2 - self.s1),
+            Range.build_se(e2, self.e1 + 1, 0)
+        ]
 
 def parse_int_line(s: str) -> list[int]:
     return [int(x) for x in s.split(" ") if x != ""]
@@ -109,22 +128,32 @@ _maps = __input.split("\n\n")
 # parse initial seeds
 ini = parse_int_line(_maps[0].split(":")[1])
 
-ranges: Range = []
+ranges: list[Range] = []
 
 for r in zip(ini[:-1:2], ini[1::2]):
     ranges.append(Range(*r))
 
-print(ranges[0].split(78, 68, 14))
+for _map in _maps[1:6]:
+    _new = []
+    for r in ranges:
+        splitted = False
+        for s in parse_map(_map):
+            if r.splitable(*s):
+                splitted = True
+                _new += r.split(*s)
+        
+        if not splitted:
+            _new.append(r)
+    ranges = _new
+
+for r in ranges:
+    print(r)
 
 
-"""
-for _map in _maps[1:]:
-    for n in range(len(res)):
-        for dst, src, _len in parse_map(_map):
-            dist = dst - src
-            if res[n] in range(src, src + _len):
-                res[n] += dist
-                break
-
-print(min(res))
+"""for _map in _maps[1:]:
+    _new = []
+    for r in ranges:
+        for s in parse_map(_map):
+            _new += r.split(*s)
+    ranges = _new.copy()
 """
