@@ -5,6 +5,9 @@ class Range:
         self.end = self.start + self._len - 1
         self.shift = shift
 
+    def __hash__(self) -> int:
+        return hash(tuple(self.start, self._len, self.end))
+
     @staticmethod
     def from_str(s: str) -> "Range":
         dst, src, l = (int(x) for x in s.split(" ") if x != "")
@@ -28,6 +31,12 @@ class Range:
                 Range(t.start, o.start - t.start),
                 Range(o.start + o.shift, t.end - o.start + 1),
             ]
+
+        return [
+            Range(t.start, o.start - t.start),
+            Range(o.start + o.shift, o._len),
+            Range(o.end + 1, t.end - o.end),
+        ]
 
     def __eq__(t, o: object) -> bool:
         if not isinstance(o, Range):

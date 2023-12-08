@@ -187,8 +187,27 @@ def test_split_first_is_shifted_towards_right_edge_case_small_second():
 
     expected = [Range(0, 2), Range(22, 8)]
 
-    print(res)
-
     assert (expected[0] == res[0] and expected[1] == res[1]) or (
         expected[0] == res[1] and expected[1] == res[0]
     )
+
+
+def test_split_second_is_in_between_the_first_one():
+    """
+    |------------|
+        |----|
+    """
+
+    first = Range(50, 30)
+    second = Range.from_str("0 60 10")
+
+    res = first.split(second)
+
+    assert len(res) == 3
+
+    expected = [Range(50, 10), Range(0, 10), Range(70, 10)]
+
+    print(res)
+
+    for ex, re in zip(expected, res):
+        assert ex == re
