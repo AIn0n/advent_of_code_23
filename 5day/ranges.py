@@ -11,4 +11,20 @@ class Range:
         return Range(src, l, shift=dst - src)
 
     def split(t, o: "Range") -> list["Range"]:
-        return [Range(t.start + o.shift, t._len)]
+        if t.start >= o.start and t._len <= o._len:
+            return [Range(t.start + o.shift, t._len)]
+
+        if o.start < t.end < o.end:
+            return [
+                Range(t.start, o.start - t.start),
+                Range(o.start + o.shift, t.end - o.start + 1),
+            ]
+
+    def __eq__(t, o: object) -> bool:
+        if not isinstance(o, Range):
+            return False
+
+        return (t.start == o.start) and (t.end == o.end) and (t._len == o._len)
+
+    def __repr__(t) -> str:
+        return f"< start = {t.start}, end = {t.end}, len = {t._len} >"
