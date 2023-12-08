@@ -80,3 +80,23 @@ def test_split_first_is_shifted_towards_left_edge_case():
     assert (expected[0] == res[0] and expected[1] == res[1]) or (
         expected[0] == res[1] and expected[1] == res[0]
     )
+
+
+def test_split_first_is_shifted_towards_left_edge_case_small_second():
+    """
+    |----|
+        ||
+    """
+
+    first = Range(20, 10)
+    second = Range.from_str("0 28 2")
+
+    res = first.split(second)
+
+    assert len(res) == 2
+
+    expected = [Range(20, 8), Range(0, 2)]
+
+    assert (expected[0] == res[0] and expected[1] == res[1]) or (
+        expected[0] == res[1] and expected[1] == res[0]
+    )

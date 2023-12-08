@@ -14,7 +14,7 @@ class Range:
         if t.start >= o.start and t._len <= o._len:
             return [Range(t.start + o.shift, t._len)]
 
-        if o.start <= t.end < o.end:
+        if o.start <= t.end <= o.end:
             return [
                 Range(t.start, o.start - t.start),
                 Range(o.start + o.shift, t.end - o.start + 1),
