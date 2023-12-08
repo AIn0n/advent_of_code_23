@@ -6,7 +6,7 @@ class Range:
         self.shift = shift
 
     def __hash__(self) -> int:
-        return hash(tuple(self.start, self._len, self.end))
+        return hash(tuple([self.start, self._len, self.end]))
 
     @staticmethod
     def from_str(s: str) -> "Range":

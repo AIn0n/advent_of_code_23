@@ -143,11 +143,8 @@ def test_split_first_is_shifted_towards_right():
 
     expected = [Range(5, 5), Range(25, 5)]
 
-    print(res)
-
-    assert (expected[0] == res[0] and expected[1] == res[1]) or (
-        expected[0] == res[1] and expected[1] == res[0]
-    )
+    for ex, re in zip(set(expected), set(res)):
+        assert ex == re
 
 
 def test_split_first_is_shifted_towards_right_edge_case():
@@ -165,11 +162,8 @@ def test_split_first_is_shifted_towards_right_edge_case():
 
     expected = [Range(10, 1), Range(21, 9)]
 
-    print(res)
-
-    assert (expected[0] == res[0] and expected[1] == res[1]) or (
-        expected[0] == res[1] and expected[1] == res[0]
-    )
+    for ex, re in zip(set(expected), set(res)):
+        assert ex == re
 
 
 def test_split_first_is_shifted_towards_right_edge_case_small_second():
@@ -187,9 +181,8 @@ def test_split_first_is_shifted_towards_right_edge_case_small_second():
 
     expected = [Range(0, 2), Range(22, 8)]
 
-    assert (expected[0] == res[0] and expected[1] == res[1]) or (
-        expected[0] == res[1] and expected[1] == res[0]
-    )
+    for ex, re in zip(set(expected), set(res)):
+        assert ex == re
 
 
 def test_split_second_is_in_between_the_first_one():
@@ -206,9 +199,6 @@ def test_split_second_is_in_between_the_first_one():
     assert len(res) == 3
 
     expected = [Range(50, 10), Range(0, 10), Range(70, 10)]
-
-    print(res)
-
     for ex, re in zip(expected, res):
         assert ex == re
 
@@ -227,8 +217,5 @@ def test_split_second_in_the_middle_of_first_edge_case():
     assert len(res) == 3
 
     expected = [Range(50, 1), Range(0, 8), Range(59, 1)]
-
-    print(res)
-
     for ex, re in zip(expected, res):
         assert ex == re
