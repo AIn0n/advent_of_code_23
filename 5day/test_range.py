@@ -26,3 +26,17 @@ def test_split_first_is_smaller_both_sides_returns_shifted_first_range():
     assert res.start == first.start + shift
     assert res.end == first.end + shift
     assert res._len == first._len
+
+
+def test_split_example_from_side():
+    first = Range(98, 2)
+
+    assert first.end == 99
+
+    second = Range.from_str("50 98 2")
+
+    res = first.split(second)[0]
+
+    assert res.start == 50
+    assert res.end == 51
+    assert res._len == 2
