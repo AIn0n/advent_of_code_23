@@ -11,7 +11,7 @@ class Range:
         return Range(src, l, shift=dst - src)
 
     def split(t, o: "Range") -> list["Range"]:
-        if t.end < o.start:
+        if t.end < o.start or o.end < t.start:
             return [t]
 
         if t.start >= o.start and t._len <= o._len:

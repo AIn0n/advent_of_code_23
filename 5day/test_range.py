@@ -113,3 +113,15 @@ def test_split_first_non_overlapping_second_returns_first_with_no_changes():
     res = first.split(second)
 
     assert res[0] == first
+
+def test_split_first_non_overlapping_second_returns_first_with_no_changes_right_scenario():
+    """
+            |----|
+    |---|
+    """
+    first = Range(20, 10)
+    second = Range.from_str("0 10 10")
+
+    res = first.split(second)
+
+    assert res[0] == first
