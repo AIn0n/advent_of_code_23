@@ -114,6 +114,7 @@ def test_split_first_non_overlapping_second_returns_first_with_no_changes():
 
     assert res[0] == first
 
+
 def test_split_first_non_overlapping_second_returns_first_with_no_changes_right_scenario():
     """
             |----|
@@ -125,3 +126,25 @@ def test_split_first_non_overlapping_second_returns_first_with_no_changes_right_
     res = first.split(second)
 
     assert res[0] == first
+
+
+def test_split_first_is_shifted_towards_right():
+    """
+        |---|
+    |-----|
+    """
+
+    first = Range(20, 10)
+    second = Range.from_str("0 15 10")
+
+    res = first.split(second)
+
+    assert len(res) == 2
+
+    expected = [Range(5, 5), Range(25, 5)]
+
+    print(res)
+
+    assert (expected[0] == res[0] and expected[1] == res[1]) or (
+        expected[0] == res[1] and expected[1] == res[0]
+    )
