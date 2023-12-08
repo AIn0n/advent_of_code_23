@@ -100,3 +100,16 @@ def test_split_first_is_shifted_towards_left_edge_case_small_second():
     assert (expected[0] == res[0] and expected[1] == res[1]) or (
         expected[0] == res[1] and expected[1] == res[0]
     )
+
+
+def test_split_first_non_overlapping_second_returns_first_with_no_changes():
+    """
+    |--|
+            |---|
+    """
+    first = Range(20, 10)
+    second = Range.from_str("0 30 10")
+
+    res = first.split(second)
+
+    assert res[0] == first
