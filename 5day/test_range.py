@@ -40,3 +40,23 @@ def test_split_example_from_side():
     assert res.start == 50
     assert res.end == 51
     assert res._len == 2
+
+
+def test_split_first_is_to_the_left():
+    """
+    |-----|
+        |----|
+    """
+
+    first = Range(20, 10)
+    second = Range.from_str("0 25 10")
+
+    res = first.split(second)
+
+    assert len(res) == 2
+
+    expected = [Range(20, 5), Range(0, 5)]
+
+    assert (expected[0] == res[0] and expected[1] == res[1]) or (
+        expected[0] == res[1] and expected[1] == res[0]
+    )
