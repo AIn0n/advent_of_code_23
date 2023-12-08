@@ -211,3 +211,24 @@ def test_split_second_is_in_between_the_first_one():
 
     for ex, re in zip(expected, res):
         assert ex == re
+
+
+def test_split_second_in_the_middle_of_first_edge_case():
+    """
+    |------------|
+     |----------|
+    """
+
+    first = Range(50, 10)
+    second = Range.from_str("0 51 8")
+
+    res = first.split(second)
+
+    assert len(res) == 3
+
+    expected = [Range(50, 1), Range(0, 8), Range(59, 1)]
+
+    print(res)
+
+    for ex, re in zip(expected, res):
+        assert ex == re
