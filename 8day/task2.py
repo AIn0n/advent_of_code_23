@@ -1,17 +1,13 @@
 from math import lcm
+from dataclasses import dataclass
 
 _input = open("in.txt", "rt").read().split("\n")
 
-
+@dataclass(frozen=True)
 class Node:
-    def __init__(t, curr, l, r) -> None:
-        t.curr = curr
-        t.l = l
-        t.r = r
-
-    def __repr__(t) -> str:
-        return f"< curr = {t.curr}, left = {t.l}, right = {t.r}>"
-
+    curr: str
+    l: str
+    r: str
 
 nodes = []
 
