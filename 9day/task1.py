@@ -15,7 +15,7 @@ def rec(nums):
 
 res = 0
 for line in _input.split("\n"):
-    nums = parse_int_line(line)
+    nums = [*reversed(parse_int_line(line))]
     res += rec(nums) + nums[-1]
 
 print(res)
