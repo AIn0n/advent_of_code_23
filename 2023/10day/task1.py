@@ -7,6 +7,8 @@ L|7||
 -L-J|
 L|-JF""".split("\n")
 
+_input = open("in.txt", "rt").read().split("\n")
+
 char_to_dirs = {
     "-" : [False, True, False, True],
     "|" : [True, False, True, False],
@@ -19,12 +21,12 @@ char_to_dirs = {
 }
 
 legal_dirs = {
-    "-" : [[(-1, 0), (1, 0)], [3, 1]],
-    "|" : [[(0, -1), (0, 1)], [2, 0]],
-    "L" : [[(-1, 0), (1, 0)], [2, 3]],
+    "-" : [[(0, -1), (0, 1)], [3, 1]],
+    "|" : [[(-1, 0), (1, 0)], [2, 0]],
+    "L" : [[(-1, 0), (0, 1)], [2, 3]],
     "F" : [[(1, 0), (0, 1)],  [0, 3]],
     "7" : [[(1, 0), (0, -1)], [0, 1]],
-    "J" : [[(-1, 0), (0, -1)],[3, 1]],
+    "J" : [[(-1, 0), (0, -1)],[2, 1]],
     ".": [[], []],
     "S": [[(1, 0), (-1, 0), (0, 1), (0, -1)], [0, 2, 3, 1]]
 }
@@ -38,7 +40,7 @@ for y in range(len(_input)):
         connections = []
         for pos, check in zip(*legal_dirs[_input[y][x]]):
             print(pos, check)
-            curr_x, curr_y = pos
+            curr_y, curr_x = pos
             curr_x += x
             curr_y += y
             if curr_x < 0 or curr_y < 0 or curr_x >= len(_input[0]) or curr_y >= len(_input):
@@ -49,13 +51,9 @@ for y in range(len(_input)):
         graph[tuple([y, x])] = connections
 
 
-
+print("im stopping in line 48")
 G = nx.Graph(graph)
 DG = nx.DiGraph(G)
+print("no haha, line 51")
 
-nx.draw(DG, with_labels=True, font_weight='bold')
-
-plt.show()
-
-for p in list(nx.simple_cycles(DG)):
-    print(p)
+print(len(max(nx.simple_cycles(G), key=len)) // 2)
