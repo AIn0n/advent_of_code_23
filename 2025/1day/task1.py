@@ -16,8 +16,6 @@ def solution(lines: list[str]) -> int:
         lambda acc, el: dec(acc, int(el[1:])) if el[0] == "L" else inc(acc, int(el[1:])), 
         initial=50
     )
-    states = list(states)
-    print(states)
     return sum(1 for el in states if el == 0) 
 
 if __name__ == "__main__":
